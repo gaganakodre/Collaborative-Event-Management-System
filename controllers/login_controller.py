@@ -75,11 +75,7 @@ def register():
         insert_sql, (username, email, hashed_password, role_id)
     )
 
-    token = create_access_token(identity={
-        "id": user_id,
-        "username": username,
-        "email": email
-    })
+    token = create_access_token(identity=str(user_id))
     return jsonify({"user_id": user_id, "token": token}), 201
 
 
@@ -136,9 +132,5 @@ def login():
     if hash_password(password) != user["password_hash"]:
         return jsonify({"error": "Wrong password"}), 401
 
-    token = create_access_token(identity={
-        "id": user["id"],
-        "username": user["username"],
-        "email": user["email"]
-    })
+    token = create_access_token(identity=str(user["id"]))
     return jsonify({"user_id": user["id"], "token": token}), 200

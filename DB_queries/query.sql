@@ -22,3 +22,15 @@ INSERT INTO roles (name, description) VALUES
 ('Owner', 'Has full control over resources, including managing users and permissions.'),
 ('Editor', 'Can create, update, and delete content but cannot manage users or system settings.'),
 ('Viewer', 'Can only view content but cannot make changes.');
+
+
+-- events table
+CREATE TABLE events (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255),
+    description TEXT,
+    user_id INT REFERENCES users(id),
+    start_time TIMESTAMP NOT NULL,
+    end_time TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
