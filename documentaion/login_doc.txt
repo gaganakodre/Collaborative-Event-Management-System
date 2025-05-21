@@ -1,0 +1,7 @@
+Register API
+The register endpoint allows a new user to create an account by sending their
+ username, email, password, and optional role. Passwords are hashed before storing in the database to enhance security.
+
+Login API
+The login endpoint authenticates a user by verifying their username/email and password.
+Upon success, a JWT token is returned for session management.
