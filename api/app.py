@@ -25,6 +25,6 @@ app.register_blueprint(version_history)
 
 @app.route("/")
 def home():
-    return {"message": "Hello from API"}
+    return {"message": "Hello from Collaborative-Event-Management-System API Documentation with Swagger! Kindly please append '/apidocs' under the base URL above to access the documentation."}
 
 
