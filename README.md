@@ -1,5 +1,5 @@
 # Collaborative-Event-Management-System
-Collaborative Event Management System
+(A NeoFi Backend Challenge)
 
 ### Run Locally
 ```bash
