@@ -1,8 +1,11 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flasgger import Swagger
+
 from controllers.login_controller import auth
-from controllers.events_controller import events  # Uncomment when you create event controller
+from controllers.events_controller import events
+from controllers.collaborative_controller import collaboration
+from controllers.versionhistory_controller import version_history
 
 app = Flask(__name__)
 
@@ -19,7 +22,9 @@ jwt = JWTManager(app)
 
 # Register blueprints
 app.register_blueprint(auth)
-app.register_blueprint(events)  # Register event routes when ready
+app.register_blueprint(events)
+app.register_blueprint(collaboration)
+app.register_blueprint(version_history)
 
 @app.route("/")
 def home():

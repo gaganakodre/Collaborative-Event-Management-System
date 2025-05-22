@@ -1,7 +1,12 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token
+# from flask_jwt_extended import create_access_token
 from utils.rds_helper import RDSHelper
 import hashlib
+from flask_jwt_extended import (
+    jwt_required, get_jwt_identity,  create_access_token,
+)
+from flask_jwt_extended import  unset_jwt_cookies
+
 
 auth = Blueprint("auth", __name__, url_prefix="/api/auth")
 
@@ -134,3 +139,39 @@ def login():
 
     token = create_access_token(identity=str(user["id"]))
     return jsonify({"user_id": user["id"], "token": token}), 200
+
+
+@auth.route("/refresh", methods=["POST"])
+@jwt_required(refresh=True)
+def refresh():
+    """
+    Refresh the access token using a valid refresh token
+    ---
+    tags:
+      - Auth
+    responses:
+      200:
+        description: New access token created
+      401:
+        description: Invalid refresh token
+    """
+    current_user = get_jwt_identity()
+    new_token = create_access_token(identity=current_user)
+    return jsonify(access_token=new_token), 200
+
+
+@auth.route("/logout", methods=["POST"])
+@jwt_required()
+def logout():
+    """
+    Logout the current user by clearing JWT token cookies
+    ---
+    tags:
+      - Auth
+    responses:
+      200:
+        description: Logout successful
+    """
+    response = jsonify({"msg": "Logout successful"})
+    unset_jwt_cookies(response)
+    return response, 200
