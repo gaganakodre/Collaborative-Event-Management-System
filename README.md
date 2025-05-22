@@ -1,7 +1,7 @@
 # Collaborative-Event-Management-System
 Collaborative Event Management System
 
-### ▶️ Run Locally
+### Run Locally
 ```bash
 python -m api.app
 ```
