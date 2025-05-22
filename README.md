@@ -3,6 +3,9 @@ Collaborative Event Management System
 
 To run
 python -m api.app
+
+
+
 A Flask-based RESTful API that enables users to create, manage, and collaborate on events with full version control. Features include secure authentication, event sharing, permission control, and changelog tracking.
 
 # Authentication APIs
