@@ -1,5 +1,5 @@
 # Collaborative-Event-Management-System
-(A NeoFi Backend Challenge) - Curated by [Shreegowri HD]
+(A NeoFi Backend Challenge) - Curated by [Shreegowri HD](https://github.com/gaganakodre)
 
 ### Run Locally
 ```bash
