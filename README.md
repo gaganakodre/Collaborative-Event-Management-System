@@ -1,17 +1,10 @@
 # Collaborative-Event-Management-System
 Collaborative Event Management System
 
-
----
-
-## 🚀 Quick Start
-
 ### ▶️ Run Locally
 ```bash
 python -m api.app
-
----
-
+```
 (To access the deployed version on Render, please visit : https://collaborative-event-management-system.onrender.com/apidocs/ )
 
 A Flask-based RESTful API that enables users to create, manage, and collaborate on events with full version control. Features include secure authentication, event sharing, permission control, and changelog tracking.
