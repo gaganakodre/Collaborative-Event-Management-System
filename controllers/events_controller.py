@@ -13,6 +13,39 @@ events = Blueprint("events", __name__, url_prefix="/api/events")
 @jwt_required()
 @role_required(["Owner", "Editor"])
 def create_event():
+    """
+    Create Event
+    ---
+    tags:
+      - Events
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          id: CreateEvent
+          required:
+            - title
+            - start_time
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+            start_time:
+              type: string
+              format: date-time
+            end_time:
+              type: string
+              format: date-time
+            recurrence_rule:
+              type: string
+    responses:
+      201:
+        description: Event created
+      400:
+        description: Missing required fields
+    """
     data = request.get_json()
     required_fields = ["title", "start_time"]
     if not all(data.get(field) for field in required_fields):
@@ -71,6 +104,49 @@ def create_event():
 @events.route("/", methods=["GET"])
 @jwt_required()
 def list_events():
+    """
+    List Events
+    ---
+    tags:
+      - Events
+    parameters:
+      - in: query
+        name: limit
+        type: integer
+        required: false
+        default: 10
+        description: Maximum number of events to return
+      - in: query
+        name: offset
+        type: integer
+        required: false
+        default: 0
+        description: Number of events to skip before starting to collect the result set
+    responses:
+      200:
+        description: A list of events belonging to the user
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              title:
+                type: string
+              description:
+                type: string
+              user_id:
+                type: integer
+              start_time:
+                type: string
+              end_time:
+                type: string
+              recurrence_rule:
+                type: string
+      401:
+        description: Unauthorized  JWT token is missing or invalid
+    """
     user_id = int(get_jwt_identity())
     limit = int(request.args.get("limit", 10))
     offset = int(request.args.get("offset", 0))
@@ -85,6 +161,22 @@ def list_events():
 @events.route("/<int:event_id>", methods=["GET"])
 @jwt_required()
 def get_event(event_id):
+    """
+    Get Event by ID
+    ---
+    tags:
+      - Events
+    parameters:
+      - name: event_id
+        in: path
+        type: integer
+        required: true
+    responses:
+      200:
+        description: Event details
+      404:
+        description: Event not found
+    """
     db = RDSHelper()
     event = db.execute_query("SELECT * FROM events WHERE id = %s", (event_id,))
     if not event:
@@ -96,6 +188,40 @@ def get_event(event_id):
 @jwt_required()
 @role_required(["Owner", "Editor"])
 def update_event(event_id):
+    """
+    Update Event
+    ---
+    tags:
+      - Events
+    parameters:
+      - name: event_id
+        in: path
+        type: integer
+        required: true
+      - in: body
+        name: body
+        required: true
+        schema:
+          id: UpdateEvent
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+            start_time:
+              type: string
+              format: date-time
+            end_time:
+              type: string
+              format: date-time
+            recurrence_rule:
+              type: string
+    responses:
+      200:
+        description: Event updated
+      404:
+        description: Event not found
+    """
     data = request.get_json()
     db = RDSHelper()
     user_id = int(get_jwt_identity())
@@ -157,6 +283,57 @@ def update_event(event_id):
 @jwt_required()
 @role_required(["Owner", "Editor"])
 def create_batch_events():
+    """
+    Batch Create Events
+    ---
+    tags:
+      - Events
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          id: BatchEventRequest
+          required:
+            - events
+          properties:
+            events:
+              type: array
+              items:
+                type: object
+                required:
+                  - title
+                  - start_time
+                properties:
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  start_time:
+                    type: string
+                    format: date-time
+                  end_time:
+                    type: string
+                    format: date-time
+                  recurrence_rule:
+                    type: string
+    responses:
+      201:
+        description: List of created event IDs
+        schema:
+          type: object
+          properties:
+            created_event_ids:
+              type: array
+              items:
+                type: integer
+      400:
+        description: Invalid request data
+      401:
+        description: Unauthorized – JWT token is missing or invalid
+      403:
+        description: Forbidden – User does not have the required role
+    """
     data = request.get_json()
     user_id = int(get_jwt_identity())
     db = RDSHelper()

@@ -5,3 +5,56 @@ The register endpoint allows a new user to create an account by sending their
 Login API
 The login endpoint authenticates a user by verifying their username/email and password.
 Upon success, a JWT token is returned for session management.
+
+Refresh token API
+Refresh the access token using a valid refresh token
+
+Logout API
+Logout the current user by clearing JWT token cookies
+
+events controllers
+Creates a new event with title and start time, and logs the creation in versioning and changelog tables.
+
+Retrieves a paginated list of events created by the authenticated user.
+
+Fetches detailed information of a specific event by its ID.
+
+Updates an existing event and stores a new version with changelog and diff summary.
+
+Creates multiple events in a single request for the authenticated user.
+
+collabrative controllers
+
+Shares an event with a specified user by assigning them a role (e.g., viewer or editor).
+
+Retrieves the list of users and their assigned roles for a specific event.
+
+Updates the role/permission of a specific user for a given event.
+
+Removes a user's permission from the specified event.
+
+version history controllers
+
+Get Version API
+Retrieves a specific version of an event using its event ID and version number. Returns version data if found, otherwise returns a not found error.
+
+Rollback Version 
+Rolls back an event to a specific previous version by version number. Returns a confirmation message upon success.
+
+Get Changelog 
+Fetches the changelog of all version updates for a given event. Useful for tracking event modifications over time.
+
+Get Version Diff 
+Compares two versions of an event and returns the differences between them. Helps users identify changes between versions.
+
+Share Event 
+Allows an event owner to share an event with another user by assigning them a role (e.g., viewer, editor).
+
+List Event Permissions 
+Lists all users who have permissions to access the event, along with their assigned roles.
+
+Update User Permission API
+Updates the role assigned to a specific user for an event (e.g., from viewer to editor).
+
+Remove User Permission API
+Removes a user's access to an event, effectively revoking their permission.
