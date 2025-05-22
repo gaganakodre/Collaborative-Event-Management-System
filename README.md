@@ -1,7 +1,14 @@
 # Collaborative-Event-Management-System
 Collaborative Event Management System
 
-To run
+[![Render](https://img.shields.io/badge/Hosted%20on-Render-brightgreen)](https://collaborative-event-management-system.onrender.com/apidocs/)
+
+---
+
+## 🚀 Quick Start
+
+### ▶️ Run Locally
+```bash
 python -m api.app
 
 (To access the deployed version on Render, please visit : https://collaborative-event-management-system.onrender.com/apidocs/ )
