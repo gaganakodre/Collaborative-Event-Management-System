@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: Collaborative-Event-Management-System
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn api.app:app
+    plan: free
